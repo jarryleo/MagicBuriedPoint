@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         testFragment1();
+
     }
 
     private void testFragment() {
@@ -37,8 +38,4 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }
