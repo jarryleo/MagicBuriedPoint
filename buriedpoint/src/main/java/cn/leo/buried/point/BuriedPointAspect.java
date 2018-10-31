@@ -14,7 +14,7 @@ import org.aspectj.lang.annotation.Pointcut;
 public class BuriedPointAspect {
 
     private static final String POINTCUT_ON_CLICK =
-            "execution(* onClick(..))";
+            "execution(* on*Click(..))";
     private static final String POINTCUT_BUTTER_KNIFE =
             "execution(@butterknife.OnClick * *(..))";
     private static final String POINT_ACTIVITY_ON_CREATE =
