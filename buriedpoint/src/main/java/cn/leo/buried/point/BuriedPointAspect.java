@@ -91,28 +91,46 @@ public class BuriedPointAspect {
 
     @Around("methodPointcut() || butterKnifePointcut()")
     public void aroundJoinClickPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
-        Object target = joinPoint.getTarget();
-        String className = "";
-        if (target != null) {
-            className = target.getClass().getName();
+        try {
+            Object target = joinPoint.getTarget();
+            String className = "";
+            if (target != null) {
+                className = target.getClass().getName();
+            }
+            //点击事件
+            Object[] args = joinPoint.getArgs();
+            if (args.length >= 1 && args[0] instanceof View) {
+                View view = (View) args[0];
+                int id = view.getId();
+                String entryName = view.getResources().getResourceEntryName(id);
+                MagicBuriedPoint.onClick(className, entryName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                joinPoint.proceed();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        //点击事件
-        Object[] args = joinPoint.getArgs();
-        if (args.length >= 1 && args[0] instanceof View) {
-            View view = (View) args[0];
-            int id = view.getId();
-            String entryName = view.getResources().getResourceEntryName(id);
-            MagicBuriedPoint.onClick(className, entryName);
-        }
-        joinPoint.proceed();
     }
 
     @Around("activityOnShowPointcut()")
     public void aroundJoinActivityOpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
-        Object target = joinPoint.getTarget();
-        String className = target.getClass().getName();
-        MagicBuriedPoint.onPageOpen(className);
-        joinPoint.proceed();
+        try {
+            Object target = joinPoint.getTarget();
+            String className = target.getClass().getName();
+            MagicBuriedPoint.onPageOpen(className);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                joinPoint.proceed();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
@@ -126,8 +144,13 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                joinPoint.proceed();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        joinPoint.proceed();
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
@@ -142,8 +165,13 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                joinPoint.proceed();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        joinPoint.proceed();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -162,17 +190,23 @@ public class BuriedPointAspect {
                 }
             }
         } catch (Exception e) {
-            //
+            e.printStackTrace();
+        } finally {
+            try {
+                joinPoint.proceed();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        joinPoint.proceed();
     }
 
     @Around("fragmentV4SetUserVisibleHint()")
     public void aroundJoinV4SetUserVisibleHint(final ProceedingJoinPoint joinPoint) throws Throwable {
-        android.support.v4.app.Fragment target = (android.support.v4.app.Fragment) joinPoint.getTarget();
-        String className = target.getClass().getName();
-        Object[] args = joinPoint.getArgs();
         try {
+            android.support.v4.app.Fragment target =
+                    (android.support.v4.app.Fragment) joinPoint.getTarget();
+            String className = target.getClass().getName();
+            Object[] args = joinPoint.getArgs();
             if (target.isResumed()) {
                 boolean isVisibleToUser = (boolean) args[0];
                 if (isVisibleToUser) {
@@ -182,8 +216,13 @@ public class BuriedPointAspect {
                 }
             }
         } catch (Exception e) {
-            //
+            e.printStackTrace();
+        } finally {
+            try {
+                joinPoint.proceed();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        joinPoint.proceed();
     }
 }
