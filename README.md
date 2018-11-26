@@ -1,8 +1,7 @@
 # MagicBuriedPoint
 自动埋点框架
 
-现阶段做到自动埋点 点击事件和页面的开启关闭
-fragment 没有做可见性处理,还不完善;
+现阶段做到自动埋点 点击事件和页面的开关事件
 
 ```
 MagicBuriedPoint.init(new BuriedPointCallBack() {
