@@ -2,19 +2,26 @@ package cn.leo.magicburiedpoint;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * @author Leo
+ */
+public class MainActivity extends BaseActivity {
 
     private TextView mTextView;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mViewPager = findViewById(R.id.vp);
+        mViewPager.setAdapter(new VpAdapter(getSupportFragmentManager()));
+
         mTextView = findViewById(R.id.tvTest1);
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -22,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "点击事件", Toast.LENGTH_SHORT).show();
             }
         });
-        testFragment1();
-
+//        testFragment();
+//        testFragment1();
     }
 
     private void testFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, new TestFragment());
+        fragmentTransaction.replace(R.id.frameLayout, new TestV4Fragment());
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -37,5 +44,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayout, new TestFragment1());
         fragmentTransaction.commitAllowingStateLoss();
     }
+
 
 }

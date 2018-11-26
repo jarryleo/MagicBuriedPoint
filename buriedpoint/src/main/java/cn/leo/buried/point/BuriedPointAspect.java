@@ -1,5 +1,9 @@
 package cn.leo.buried.point;
 
+import android.annotation.TargetApi;
+import android.app.Fragment;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,46 +21,60 @@ public class BuriedPointAspect {
             "execution(* on*Click(..))";
     private static final String POINTCUT_BUTTER_KNIFE =
             "execution(@butterknife.OnClick * *(..))";
-    private static final String POINT_ACTIVITY_ON_CREATE =
-            "execution(* android.app.Activity+.onCreate(..))";
-    private static final String POINT_FRAGMENT_ON_CREATE =
-            "execution(* android.app.Fragment+.onCreate(..))";
-    private static final String POINT_FRAGMENT_V4_ON_CREATE =
-            "execution(* android.support.v4.app.Fragment+.onCreate(..))";
-    private static final String POINT_ACTIVITY_ON_DESTROY =
-            "execution(* android.app.Activity+.onDestroy(..))";
-    private static final String POINT_FRAGMENT_ON_DESTROY =
-            "execution(* android.app.Fragment+.onDestroy(..))";
-    private static final String POINT_FRAGMENT_V4_ON_DESTROY =
-            "execution(* android.support.v4.app.Fragment+.onDestroy(..))";
+    private static final String POINT_ACTIVITY_ON_SHOW =
+            "execution(* android.app.Activity+.onResume(..))";
+    private static final String POINT_FRAGMENT_ON_SHOW =
+            "execution(* android.app.Fragment+.onResume(..))";
+    private static final String POINT_FRAGMENT_V4_ON_SHOW =
+            "execution(* android.support.v4.app.Fragment+.onResume(..))";
+    private static final String POINT_ACTIVITY_ON_HIDE =
+            "execution(* android.app.Activity+.onPause(..))";
+    private static final String POINT_FRAGMENT_ON_HIDE =
+            "execution(* android.app.Fragment+.onPause(..))";
+    private static final String POINT_FRAGMENT_V4_ON_HIDE =
+            "execution(* android.support.v4.app.Fragment+.onPause(..))";
+    private static final String POINT_FRAGMENT_SET_USER_VISIBLE_HINT =
+            "execution(* android.app.Fragment+.setUserVisibleHint(..))";
+    private static final String POINT_FRAGMENT_V4_SET_USER_VISIBLE_HINT =
+            "execution(* android.support.v4.app.Fragment+.setUserVisibleHint(..))";
 
-    @Pointcut(POINT_ACTIVITY_ON_CREATE)
-    public void activityOnCreatePointcut() {
-
-    }
-
-    @Pointcut(POINT_FRAGMENT_ON_CREATE)
-    public void fragmentOnCreatePointcut() {
-
-    }
-
-    @Pointcut(POINT_FRAGMENT_V4_ON_CREATE)
-    public void fragmentV4OnCreatePointcut() {
+    @Pointcut(POINT_ACTIVITY_ON_SHOW)
+    public void activityOnShowPointcut() {
 
     }
 
-    @Pointcut(POINT_ACTIVITY_ON_DESTROY)
-    public void activityOnDestroyPointcut() {
+    @Pointcut(POINT_FRAGMENT_ON_SHOW)
+    public void fragmentOnShowPointcut() {
 
     }
 
-    @Pointcut(POINT_FRAGMENT_ON_DESTROY)
-    public void fragmentOnDestroyPointcut() {
+    @Pointcut(POINT_FRAGMENT_V4_ON_SHOW)
+    public void fragmentV4OnShowPointcut() {
 
     }
 
-    @Pointcut(POINT_FRAGMENT_V4_ON_DESTROY)
-    public void fragmentV4OnDestroyPointcut() {
+    @Pointcut(POINT_ACTIVITY_ON_HIDE)
+    public void activityOnHidePointcut() {
+
+    }
+
+    @Pointcut(POINT_FRAGMENT_ON_HIDE)
+    public void fragmentOnHidePointcut() {
+
+    }
+
+    @Pointcut(POINT_FRAGMENT_V4_ON_HIDE)
+    public void fragmentV4OnHidePointcut() {
+
+    }
+
+    @Pointcut(POINT_FRAGMENT_SET_USER_VISIBLE_HINT)
+    public void fragmentSetUserVisibleHint() {
+
+    }
+
+    @Pointcut(POINT_FRAGMENT_V4_SET_USER_VISIBLE_HINT)
+    public void fragmentV4SetUserVisibleHint() {
 
     }
 
@@ -89,19 +107,83 @@ public class BuriedPointAspect {
         joinPoint.proceed();
     }
 
-    @Around("activityOnCreatePointcut() || fragmentOnCreatePointcut() || fragmentV4OnCreatePointcut()")
-    public void aroundJoinPageOpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("activityOnShowPointcut()")
+    public void aroundJoinActivityOpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
         Object target = joinPoint.getTarget();
         String className = target.getClass().getName();
         MagicBuriedPoint.onPageOpen(className);
         joinPoint.proceed();
     }
 
-    @Around("activityOnDestroyPointcut() || fragmentOnDestroyPointcut() || fragmentV4OnDestroyPointcut()")
-    public void aroundJoinPageClosePoint(final ProceedingJoinPoint joinPoint) throws Throwable {
-        Object target = joinPoint.getTarget();
+    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+    @Around("fragmentOnShowPointcut()")
+    public void aroundJoinFragmentOpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+        try {
+            Fragment fragment = (Fragment) joinPoint.getTarget();
+            String className = fragment.getClass().getName();
+            if (fragment.getUserVisibleHint()) {
+                MagicBuriedPoint.onPageOpen(className);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        joinPoint.proceed();
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+    @Around("fragmentV4OnShowPointcut()")
+    public void aroundJoinFragmentV4OpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+        try {
+            android.support.v4.app.Fragment fragment =
+                    (android.support.v4.app.Fragment) joinPoint.getTarget();
+            String className = fragment.getClass().getName();
+            if (fragment.getUserVisibleHint()) {
+                MagicBuriedPoint.onPageOpen(className);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        joinPoint.proceed();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Around("fragmentSetUserVisibleHint()")
+    public void aroundJoinSetUserVisibleHint(final ProceedingJoinPoint joinPoint) throws Throwable {
+        try {
+            Fragment target = (Fragment) joinPoint.getTarget();
+            String className = target.getClass().getName();
+            Object[] args = joinPoint.getArgs();
+            if (target.isResumed()) {
+                boolean isVisibleToUser = (boolean) args[0];
+                if (isVisibleToUser) {
+                    MagicBuriedPoint.onPageOpen(className);
+                } else {
+                    MagicBuriedPoint.onPageClose(className);
+                }
+            }
+        } catch (Exception e) {
+            //
+        }
+        joinPoint.proceed();
+    }
+
+    @Around("fragmentV4SetUserVisibleHint()")
+    public void aroundJoinV4SetUserVisibleHint(final ProceedingJoinPoint joinPoint) throws Throwable {
+        android.support.v4.app.Fragment target = (android.support.v4.app.Fragment) joinPoint.getTarget();
         String className = target.getClass().getName();
-        MagicBuriedPoint.onPageClose(className);
+        Object[] args = joinPoint.getArgs();
+        try {
+            if (target.isResumed()) {
+                boolean isVisibleToUser = (boolean) args[0];
+                if (isVisibleToUser) {
+                    MagicBuriedPoint.onPageOpen(className);
+                } else {
+                    MagicBuriedPoint.onPageClose(className);
+                }
+            }
+        } catch (Exception e) {
+            //
+        }
         joinPoint.proceed();
     }
 }
