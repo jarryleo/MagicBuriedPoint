@@ -23,11 +23,17 @@ MagicBuriedPoint.init(new BuriedPointCallBack() {
             }
         });
 ```
+
+### 注意事项：
+
+> Activity 和 Fragment 必须重写 onPause() 和 onResume() 方法，由父类重写也可以；         
+> Fragment 还必须重写 setUserVisibleHint 方法；又父类重写也可以！         
+> 必须要重写以上方法，方法执行过程可以不管；否则埋点无法生效！        
+
 ### 依赖方法:
-#### To get a Git project into your build:
-#### Step 1. Add the JitPack repository to your build file
-1.在全局build里面添加下面github仓库地址
-Add it in your root build.gradle at the end of repositories:
+
+#### 1.在全局build里面添加下面github仓库地址
+
 ```
 buildscript {
     ...
@@ -46,15 +52,14 @@ allprojects {
 ```
 google()和jcenter()这两个仓库一般是默认的，如果没有请加上
 
-#### Step 2. Add the dependency
-2.在app的build里面添加插件和依赖
+#### 2.在app的build里面添加插件和依赖
 ```
 apply plugin: 'cn.leo.plugin.magic' //java 用这个
 apply plugin: 'android-aspectjx'  //kotlin 用这个，编译速度会慢点
 ...
 dependencies {
 	...
-	implementation 'com.github.jarryleo:MagicBuriedPoint:v1.0'
+	implementation 'com.github.jarryleo:MagicBuriedPoint:v2.0'
 }
 ```
 
