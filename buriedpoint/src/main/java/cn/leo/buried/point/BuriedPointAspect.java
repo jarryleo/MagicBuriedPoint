@@ -1,6 +1,7 @@
 package cn.leo.buried.point;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -18,7 +19,7 @@ import org.aspectj.lang.annotation.Pointcut;
 public class BuriedPointAspect {
 
     private static final String POINTCUT_ON_CLICK =
-            "execution(* on*Click(..))";
+            "execution(* onClick(..))";
     private static final String POINTCUT_BUTTER_KNIFE =
             "execution(@butterknife.OnClick * *(..))";
     private static final String POINT_ACTIVITY_ON_SHOW =
@@ -119,9 +120,9 @@ public class BuriedPointAspect {
     @Around("activityOnShowPointcut()")
     public void aroundJoinActivityOpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
         try {
-            Object target = joinPoint.getTarget();
+            Activity target = (Activity) joinPoint.getTarget();
             String className = target.getClass().getName();
-            MagicBuriedPoint.onPageOpen(className);
+            MagicBuriedPoint.onPageOpen(className, target);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -136,9 +137,9 @@ public class BuriedPointAspect {
     @Around("activityOnHidePointcut()")
     public void aroundJoinActivityClosePoint(final ProceedingJoinPoint joinPoint) throws Throwable {
         try {
-            Object target = joinPoint.getTarget();
+            Activity target = (Activity) joinPoint.getTarget();
             String className = target.getClass().getName();
-            MagicBuriedPoint.onPageClose(className);
+            MagicBuriedPoint.onPageClose(className, target);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -158,7 +159,7 @@ public class BuriedPointAspect {
             Fragment fragment = (Fragment) joinPoint.getTarget();
             String className = fragment.getClass().getName();
             if (fragment.getUserVisibleHint()) {
-                MagicBuriedPoint.onPageOpen(className);
+                MagicBuriedPoint.onPageOpen(className, fragment);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,7 +180,7 @@ public class BuriedPointAspect {
             Fragment fragment = (Fragment) joinPoint.getTarget();
             String className = fragment.getClass().getName();
             if (fragment.getUserVisibleHint()) {
-                MagicBuriedPoint.onPageClose(className);
+                MagicBuriedPoint.onPageClose(className, fragment);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,7 +201,7 @@ public class BuriedPointAspect {
                     (android.support.v4.app.Fragment) joinPoint.getTarget();
             String className = fragment.getClass().getName();
             if (fragment.getUserVisibleHint()) {
-                MagicBuriedPoint.onPageOpen(className);
+                MagicBuriedPoint.onPageOpen(className, fragment);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,7 +223,7 @@ public class BuriedPointAspect {
                     (android.support.v4.app.Fragment) joinPoint.getTarget();
             String className = fragment.getClass().getName();
             if (fragment.getUserVisibleHint()) {
-                MagicBuriedPoint.onPageClose(className);
+                MagicBuriedPoint.onPageClose(className, fragment);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -245,9 +246,9 @@ public class BuriedPointAspect {
             if (target.isResumed()) {
                 boolean isVisibleToUser = (boolean) args[0];
                 if (isVisibleToUser) {
-                    MagicBuriedPoint.onPageOpen(className);
+                    MagicBuriedPoint.onPageOpen(className, target);
                 } else {
-                    MagicBuriedPoint.onPageClose(className);
+                    MagicBuriedPoint.onPageClose(className, target);
                 }
             }
         } catch (Exception e) {
@@ -271,9 +272,9 @@ public class BuriedPointAspect {
             if (target.isResumed()) {
                 boolean isVisibleToUser = (boolean) args[0];
                 if (isVisibleToUser) {
-                    MagicBuriedPoint.onPageOpen(className);
+                    MagicBuriedPoint.onPageOpen(className, target);
                 } else {
-                    MagicBuriedPoint.onPageClose(className);
+                    MagicBuriedPoint.onPageClose(className, target);
                 }
             }
         } catch (Exception e) {

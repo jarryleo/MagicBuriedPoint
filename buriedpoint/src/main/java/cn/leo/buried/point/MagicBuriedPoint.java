@@ -22,17 +22,17 @@ public class MagicBuriedPoint {
         buriedPointCallBack.onClick(pageClassName, viewIdName);
     }
 
-    static void onPageOpen(String pageClassName) {
+    static void onPageOpen(String pageClassName, Object pageObject) {
         if (buriedPointCallBack == null) {
             return;
         }
-        buriedPointCallBack.onPageOpen(pageClassName);
+        buriedPointCallBack.onPageResume(pageClassName,pageObject);
     }
 
-    static void onPageClose(String pageClassName) {
+    static void onPageClose(String pageClassName, Object pageObject) {
         if (buriedPointCallBack == null) {
             return;
         }
-        buriedPointCallBack.onPageClose(pageClassName);
+        buriedPointCallBack.onPagePause(pageClassName,pageObject);
     }
 }
