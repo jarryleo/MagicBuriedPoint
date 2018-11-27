@@ -26,7 +26,7 @@ MagicBuriedPoint.init(new BuriedPointCallBack() {
 ### 注意事项：
 
 > Activity 和 Fragment 必须重写 onPause() 和 onResume() 方法，由父类重写也可以；         
-> Fragment 还必须重写 setUserVisibleHint 方法；由父类重写也可以！         
+> Fragment 还必须重写 setUserVisibleHint 和 onHiddenChanged 方法；由父类重写也可以！         
 > 必须要重写以上方法，否则埋点无法生效！        
 
 ### 依赖方法:
@@ -58,7 +58,7 @@ apply plugin: 'android-aspectjx'  //kotlin 用这个，编译速度会慢点
 ...
 dependencies {
 	...
-	implementation 'com.github.jarryleo:MagicBuriedPoint:v2.1'
+	implementation 'com.github.jarryleo:MagicBuriedPoint:v2.2'
 }
 ```
 
