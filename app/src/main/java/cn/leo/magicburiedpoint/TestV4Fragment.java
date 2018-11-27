@@ -42,15 +42,35 @@ public class TestV4Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (getUserVisibleHint() && !isHidden()) {
+            onVisibilityChange(true);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        if (getUserVisibleHint() && !isHidden()) {
+            onVisibilityChange(false);
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (getUserVisibleHint()) {
+            onVisibilityChange(!hidden);
+        }
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        onVisibilityChange(isVisibleToUser);
+    }
+
+
+    public void onVisibilityChange(boolean isVisible) {
+        System.out.println(isVisible);
     }
 }

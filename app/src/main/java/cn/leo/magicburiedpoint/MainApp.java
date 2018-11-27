@@ -26,9 +26,6 @@ public class MainApp extends Application {
             @Override
             public void onPageResume(String pageClassName, Object pageObject) {
                 Log.e(TAG, "onPageOpen: " + pageClassName);
-                if (pageObject instanceof Activity) {
-                    Log.e(TAG, "onPageResume: " + pageObject);
-                }
             }
 
             @Override

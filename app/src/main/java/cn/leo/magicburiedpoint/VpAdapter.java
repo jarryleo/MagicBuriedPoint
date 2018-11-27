@@ -2,13 +2,14 @@ package cn.leo.magicburiedpoint;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * @author : Jarry Leo
  * @date : 2018/11/26 14:03
  */
-public class VpAdapter extends FragmentStatePagerAdapter {
+public class VpAdapter extends FragmentPagerAdapter {
     public VpAdapter(FragmentManager fm) {
         super(fm);
     }
