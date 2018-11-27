@@ -1,7 +1,7 @@
 # MagicBuriedPoint
 自动埋点框架
 
-现阶段做到自动埋点 点击事件和页面的开关事件
+现阶段做到自动埋点 捕获所有点击事件和页面的显示隐藏
 
 ```
 MagicBuriedPoint.init(new BuriedPointCallBack() {
@@ -11,12 +11,12 @@ MagicBuriedPoint.init(new BuriedPointCallBack() {
             }
 
             @Override
-            public void onPageOpen(String pageClassName) {
+            public void onPageResume(String pageClassName, Object pageObject) {
                 Log.e(TAG, "onPageOpen: " + pageClassName);
             }
 
             @Override
-            public void onPageClose(String pageClassName) {
+            public void onPagePause(String pageClassName, Object pageObject) {
                 Log.e(TAG, "onPageClose: " + pageClassName);
 
             }
@@ -26,8 +26,8 @@ MagicBuriedPoint.init(new BuriedPointCallBack() {
 ### 注意事项：
 
 > Activity 和 Fragment 必须重写 onPause() 和 onResume() 方法，由父类重写也可以；         
-> Fragment 还必须重写 setUserVisibleHint 方法；又父类重写也可以！         
-> 必须要重写以上方法，方法执行过程可以不管；否则埋点无法生效！        
+> Fragment 还必须重写 setUserVisibleHint 方法；由父类重写也可以！         
+> 必须要重写以上方法，否则埋点无法生效！        
 
 ### 依赖方法:
 
@@ -58,7 +58,7 @@ apply plugin: 'android-aspectjx'  //kotlin 用这个，编译速度会慢点
 ...
 dependencies {
 	...
-	implementation 'com.github.jarryleo:MagicBuriedPoint:v2.0'
+	implementation 'com.github.jarryleo:MagicBuriedPoint:v2.1'
 }
 ```
 
