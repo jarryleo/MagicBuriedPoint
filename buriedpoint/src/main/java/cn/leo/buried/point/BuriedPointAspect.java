@@ -7,9 +7,9 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
@@ -105,8 +105,8 @@ public class BuriedPointAspect {
 
     }
 
-    @Around("methodPointcut() || butterKnifePointcut()")
-    public void aroundJoinClickPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("methodPointcut() || butterKnifePointcut()")
+    public void aroundJoinClickPoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Object target = joinPoint.getTarget();
             String className = "";
@@ -123,53 +123,35 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    @Around("activityOnShowPointcut()")
-    public void aroundJoinActivityOpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("activityOnShowPointcut()")
+    public void aroundJoinActivityOpenPoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Activity target = (Activity) joinPoint.getTarget();
             String className = target.getClass().getName();
             MagicBuriedPoint.onPageOpen(className, target);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    @Around("activityOnHidePointcut()")
-    public void aroundJoinActivityClosePoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("activityOnHidePointcut()")
+    public void aroundJoinActivityClosePoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Activity target = (Activity) joinPoint.getTarget();
             String className = target.getClass().getName();
             MagicBuriedPoint.onPageClose(className, target);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @Around("fragmentOnShowPointcut()")
-    public void aroundJoinFragmentOpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("fragmentOnShowPointcut()")
+    public void aroundJoinFragmentOpenPoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Fragment fragment = (Fragment) joinPoint.getTarget();
             String className = fragment.getClass().getName();
@@ -178,19 +160,13 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @Around("fragmentOnHidePointcut()")
-    public void aroundJoinFragmentClosePoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("fragmentOnHidePointcut()")
+    public void aroundJoinFragmentClosePoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Fragment fragment = (Fragment) joinPoint.getTarget();
             String className = fragment.getClass().getName();
@@ -199,18 +175,12 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @Around("fragmentV4OnShowPointcut()")
-    public void aroundJoinFragmentV4OpenPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("fragmentV4OnShowPointcut()")
+    public void aroundJoinFragmentV4OpenPoint(final JoinPoint joinPoint) throws Throwable {
         try {
             android.support.v4.app.Fragment fragment =
                     (android.support.v4.app.Fragment) joinPoint.getTarget();
@@ -220,19 +190,13 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @Around("fragmentV4OnHidePointcut()")
-    public void aroundJoinFragmentV4ClosePoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("fragmentV4OnHidePointcut()")
+    public void aroundJoinFragmentV4ClosePoint(final JoinPoint joinPoint) throws Throwable {
         try {
             android.support.v4.app.Fragment fragment =
                     (android.support.v4.app.Fragment) joinPoint.getTarget();
@@ -242,18 +206,12 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Around("fragmentSetUserVisibleHint()")
-    public void aroundJoinSetUserVisibleHint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("fragmentSetUserVisibleHint()")
+    public void aroundJoinSetUserVisibleHint(final JoinPoint joinPoint) throws Throwable {
         try {
             Fragment target = (Fragment) joinPoint.getTarget();
             String className = target.getClass().getName();
@@ -268,17 +226,11 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    @Around("fragmentV4SetUserVisibleHint()")
-    public void aroundJoinV4SetUserVisibleHint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("fragmentV4SetUserVisibleHint()")
+    public void aroundJoinV4SetUserVisibleHint(final JoinPoint joinPoint) throws Throwable {
         try {
             android.support.v4.app.Fragment target =
                     (android.support.v4.app.Fragment) joinPoint.getTarget();
@@ -294,64 +246,42 @@ public class BuriedPointAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Around("fragmentOnHiddenChanged()")
-    public void aroundJoinOnHiddenChanged(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("fragmentOnHiddenChanged()")
+    public void aroundJoinOnHiddenChanged(final JoinPoint joinPoint) throws Throwable {
         try {
             Fragment target = (Fragment) joinPoint.getTarget();
             String className = target.getClass().getName();
             Object[] args = joinPoint.getArgs();
-            if (target.isResumed()) {
-                boolean isHidden = (boolean) args[0];
-                if (isHidden) {
-                    MagicBuriedPoint.onPageClose(className, target);
-                } else {
-                    MagicBuriedPoint.onPageOpen(className, target);
-                }
+            boolean isHidden = (boolean) args[0];
+            if (isHidden) {
+                MagicBuriedPoint.onPageClose(className, target);
+            } else {
+                MagicBuriedPoint.onPageOpen(className, target);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    @Around("fragmentV4OnHiddenChanged()")
-    public void aroundJoinV4OnHiddenChanged(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("fragmentV4OnHiddenChanged()")
+    public void aroundJoinV4OnHiddenChanged(final JoinPoint joinPoint) throws Throwable {
         try {
             android.support.v4.app.Fragment target =
                     (android.support.v4.app.Fragment) joinPoint.getTarget();
             String className = target.getClass().getName();
             Object[] args = joinPoint.getArgs();
-            if (target.isResumed()) {
-                boolean isHidden = (boolean) args[0];
-                if (isHidden) {
-                    MagicBuriedPoint.onPageClose(className, target);
-                } else {
-                    MagicBuriedPoint.onPageOpen(className, target);
-                }
+            boolean isHidden = (boolean) args[0];
+            if (isHidden) {
+                MagicBuriedPoint.onPageClose(className, target);
+            } else {
+                MagicBuriedPoint.onPageOpen(className, target);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                joinPoint.proceed();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }
