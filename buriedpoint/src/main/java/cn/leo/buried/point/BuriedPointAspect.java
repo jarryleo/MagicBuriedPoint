@@ -8,8 +8,9 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
@@ -105,7 +106,7 @@ public class BuriedPointAspect {
 
     }
 
-    @Before("methodPointcut() || butterKnifePointcut()")
+    @After("methodPointcut() || butterKnifePointcut()")
     public void aroundJoinClickPoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Object target = joinPoint.getTarget();
@@ -126,7 +127,7 @@ public class BuriedPointAspect {
         }
     }
 
-    @Before("activityOnShowPointcut()")
+    @After("activityOnShowPointcut()")
     public void aroundJoinActivityOpenPoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Activity target = (Activity) joinPoint.getTarget();
@@ -137,7 +138,7 @@ public class BuriedPointAspect {
         }
     }
 
-    @Before("activityOnHidePointcut()")
+    @After("activityOnHidePointcut()")
     public void aroundJoinActivityClosePoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Activity target = (Activity) joinPoint.getTarget();
@@ -150,7 +151,7 @@ public class BuriedPointAspect {
 
 
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @Before("fragmentOnShowPointcut()")
+    @After("fragmentOnShowPointcut()")
     public void aroundJoinFragmentOpenPoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Fragment fragment = (Fragment) joinPoint.getTarget();
@@ -165,7 +166,7 @@ public class BuriedPointAspect {
 
 
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @Before("fragmentOnHidePointcut()")
+    @After("fragmentOnHidePointcut()")
     public void aroundJoinFragmentClosePoint(final JoinPoint joinPoint) throws Throwable {
         try {
             Fragment fragment = (Fragment) joinPoint.getTarget();
@@ -179,7 +180,7 @@ public class BuriedPointAspect {
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @Before("fragmentV4OnShowPointcut()")
+    @After("fragmentV4OnShowPointcut()")
     public void aroundJoinFragmentV4OpenPoint(final JoinPoint joinPoint) throws Throwable {
         try {
             android.support.v4.app.Fragment fragment =
@@ -195,7 +196,7 @@ public class BuriedPointAspect {
 
 
     @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @Before("fragmentV4OnHidePointcut()")
+    @After("fragmentV4OnHidePointcut()")
     public void aroundJoinFragmentV4ClosePoint(final JoinPoint joinPoint) throws Throwable {
         try {
             android.support.v4.app.Fragment fragment =
@@ -210,7 +211,7 @@ public class BuriedPointAspect {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Before("fragmentSetUserVisibleHint()")
+    @After("fragmentSetUserVisibleHint()")
     public void aroundJoinSetUserVisibleHint(final JoinPoint joinPoint) throws Throwable {
         try {
             Fragment target = (Fragment) joinPoint.getTarget();
@@ -229,7 +230,7 @@ public class BuriedPointAspect {
         }
     }
 
-    @Before("fragmentV4SetUserVisibleHint()")
+    @After("fragmentV4SetUserVisibleHint()")
     public void aroundJoinV4SetUserVisibleHint(final JoinPoint joinPoint) throws Throwable {
         try {
             android.support.v4.app.Fragment target =
@@ -250,7 +251,7 @@ public class BuriedPointAspect {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Before("fragmentOnHiddenChanged()")
+    @After("fragmentOnHiddenChanged()")
     public void aroundJoinOnHiddenChanged(final JoinPoint joinPoint) throws Throwable {
         try {
             Fragment target = (Fragment) joinPoint.getTarget();
@@ -267,7 +268,7 @@ public class BuriedPointAspect {
         }
     }
 
-    @Before("fragmentV4OnHiddenChanged()")
+    @After("fragmentV4OnHiddenChanged()")
     public void aroundJoinV4OnHiddenChanged(final JoinPoint joinPoint) throws Throwable {
         try {
             android.support.v4.app.Fragment target =

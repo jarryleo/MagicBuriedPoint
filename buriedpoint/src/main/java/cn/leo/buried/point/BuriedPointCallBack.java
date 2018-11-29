@@ -11,7 +11,7 @@ public interface BuriedPointCallBack {
      * @param pageClassName 点击事件所在页面全类名
      * @param viewIdName    点击的view的id名称
      */
-    void onClick(String pageClassName, String viewIdName);
+    void onEvent(String pageClassName, String viewIdName);
 
     /**
      * 页面展示

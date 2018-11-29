@@ -1,6 +1,5 @@
 package cn.leo.magicburiedpoint;
 
-import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
@@ -19,7 +18,7 @@ public class MainApp extends Application {
         super.onCreate();
         MagicBuriedPoint.init(new BuriedPointCallBack() {
             @Override
-            public void onClick(String pageClassName, String viewIdName) {
+            public void onEvent(String pageClassName, String viewIdName) {
                 Log.e(TAG, "onClick: " + pageClassName + "-" + viewIdName);
             }
 

@@ -6,7 +6,7 @@ package cn.leo.buried.point;
  */
 public class MagicBuriedPoint {
 
-    private static BuriedPointCallBack buriedPointCallBack;
+    static BuriedPointCallBack buriedPointCallBack;
 
     private MagicBuriedPoint() {
     }
@@ -19,20 +19,20 @@ public class MagicBuriedPoint {
         if (buriedPointCallBack == null) {
             return;
         }
-        buriedPointCallBack.onClick(pageClassName, viewIdName);
+        buriedPointCallBack.onEvent(pageClassName, viewIdName);
     }
 
     static void onPageOpen(String pageClassName, Object pageObject) {
         if (buriedPointCallBack == null) {
             return;
         }
-        buriedPointCallBack.onPageResume(pageClassName,pageObject);
+        buriedPointCallBack.onPageResume(pageClassName, pageObject);
     }
 
     static void onPageClose(String pageClassName, Object pageObject) {
         if (buriedPointCallBack == null) {
             return;
         }
-        buriedPointCallBack.onPagePause(pageClassName,pageObject);
+        buriedPointCallBack.onPagePause(pageClassName, pageObject);
     }
 }
