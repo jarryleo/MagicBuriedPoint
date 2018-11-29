@@ -6,8 +6,8 @@
 ```
 MagicBuriedPoint.init(new BuriedPointCallBack() {
             @Override
-            public void onClick(String pageClassName, String viewIdName) {
-                Log.e(TAG, "onClick: " + pageClassName + "-" + viewIdName);
+            public void onEvent(String pageClassName, String viewIdName) {
+                Log.e(TAG, "onEvent: " + pageClassName + "-" + viewIdName);
             }
 
             @Override
@@ -58,7 +58,7 @@ apply plugin: 'android-aspectjx'  //kotlin 用这个，编译速度会慢点
 ...
 dependencies {
 	...
-	implementation 'com.github.jarryleo:MagicBuriedPoint:v2.2'
+	implementation 'com.github.jarryleo:MagicBuriedPoint:v2.3'
 }
 ```
 
