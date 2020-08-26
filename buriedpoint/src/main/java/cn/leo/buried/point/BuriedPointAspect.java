@@ -2,9 +2,10 @@ package cn.leo.buried.point;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+
 import android.view.View;
 
 import org.aspectj.lang.JoinPoint;
@@ -25,23 +26,15 @@ public class BuriedPointAspect {
     private static final String POINT_ACTIVITY_ON_SHOW =
             "execution(* android.app.Activity+.onResume(..))";
     private static final String POINT_FRAGMENT_ON_SHOW =
-            "execution(* android.app.Fragment+.onResume(..))";
-    private static final String POINT_FRAGMENT_V4_ON_SHOW =
-            "execution(* android.support.v4.app.Fragment+.onResume(..))";
+            "execution(* androidx.fragment.app.Fragment+.onResume(..))";
     private static final String POINT_ACTIVITY_ON_HIDE =
             "execution(* android.app.Activity+.onPause(..))";
     private static final String POINT_FRAGMENT_ON_HIDE =
-            "execution(* android.app.Fragment+.onPause(..))";
-    private static final String POINT_FRAGMENT_V4_ON_HIDE =
-            "execution(* android.support.v4.app.Fragment+.onPause(..))";
+            "execution(* androidx.fragment.app.Fragment+.onPause(..))";
     private static final String POINT_FRAGMENT_SET_USER_VISIBLE_HINT =
-            "execution(* android.app.Fragment+.setUserVisibleHint(..))";
-    private static final String POINT_FRAGMENT_V4_SET_USER_VISIBLE_HINT =
-            "execution(* android.support.v4.app.Fragment+.setUserVisibleHint(..))";
+            "execution(* androidx.fragment.app.Fragment+.setUserVisibleHint(..))";
     private static final String POINT_FRAGMENT_ON_HIDDEN_CHANGED =
-            "execution(* android.app.Fragment+.onHiddenChanged(..))";
-    private static final String POINT_FRAGMENT_V4_ON_HIDDEN_CHANGED =
-            "execution(* android.support.v4.app.Fragment+.onHiddenChanged(..))";
+            "execution(* androidx.fragment.app.Fragment+.onHiddenChanged(..))";
 
 
     @Pointcut(POINT_ACTIVITY_ON_SHOW)
@@ -54,10 +47,6 @@ public class BuriedPointAspect {
 
     }
 
-    @Pointcut(POINT_FRAGMENT_V4_ON_SHOW)
-    public void fragmentV4OnShowPointcut() {
-
-    }
 
     @Pointcut(POINT_ACTIVITY_ON_HIDE)
     public void activityOnHidePointcut() {
@@ -69,28 +58,13 @@ public class BuriedPointAspect {
 
     }
 
-    @Pointcut(POINT_FRAGMENT_V4_ON_HIDE)
-    public void fragmentV4OnHidePointcut() {
-
-    }
-
     @Pointcut(POINT_FRAGMENT_SET_USER_VISIBLE_HINT)
     public void fragmentSetUserVisibleHint() {
 
     }
 
-    @Pointcut(POINT_FRAGMENT_V4_SET_USER_VISIBLE_HINT)
-    public void fragmentV4SetUserVisibleHint() {
-
-    }
-
     @Pointcut(POINT_FRAGMENT_ON_HIDDEN_CHANGED)
     public void fragmentOnHiddenChanged() {
-
-    }
-
-    @Pointcut(POINT_FRAGMENT_V4_ON_HIDDEN_CHANGED)
-    public void fragmentV4OnHiddenChanged() {
 
     }
 
@@ -178,36 +152,6 @@ public class BuriedPointAspect {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @After("fragmentV4OnShowPointcut()")
-    public void aroundJoinFragmentV4OpenPoint(final JoinPoint joinPoint) throws Throwable {
-        try {
-            android.support.v4.app.Fragment fragment =
-                    (android.support.v4.app.Fragment) joinPoint.getTarget();
-            String className = fragment.getClass().getName();
-            if (fragment.getUserVisibleHint() && !fragment.isHidden()) {
-                MagicBuriedPoint.onPageOpen(className, fragment);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    @After("fragmentV4OnHidePointcut()")
-    public void aroundJoinFragmentV4ClosePoint(final JoinPoint joinPoint) throws Throwable {
-        try {
-            android.support.v4.app.Fragment fragment =
-                    (android.support.v4.app.Fragment) joinPoint.getTarget();
-            String className = fragment.getClass().getName();
-            if (fragment.getUserVisibleHint() && !fragment.isHidden()) {
-                MagicBuriedPoint.onPageClose(className, fragment);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @After("fragmentSetUserVisibleHint()")
@@ -229,25 +173,6 @@ public class BuriedPointAspect {
         }
     }
 
-    @After("fragmentV4SetUserVisibleHint()")
-    public void aroundJoinV4SetUserVisibleHint(final JoinPoint joinPoint) throws Throwable {
-        try {
-            android.support.v4.app.Fragment target =
-                    (android.support.v4.app.Fragment) joinPoint.getTarget();
-            String className = target.getClass().getName();
-            Object[] args = joinPoint.getArgs();
-            if (target.isResumed()) {
-                boolean isVisibleToUser = (boolean) args[0];
-                if (isVisibleToUser) {
-                    MagicBuriedPoint.onPageOpen(className, target);
-                } else {
-                    MagicBuriedPoint.onPageClose(className, target);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @After("fragmentOnHiddenChanged()")
@@ -267,21 +192,4 @@ public class BuriedPointAspect {
         }
     }
 
-    @After("fragmentV4OnHiddenChanged()")
-    public void aroundJoinV4OnHiddenChanged(final JoinPoint joinPoint) throws Throwable {
-        try {
-            android.support.v4.app.Fragment target =
-                    (android.support.v4.app.Fragment) joinPoint.getTarget();
-            String className = target.getClass().getName();
-            Object[] args = joinPoint.getArgs();
-            boolean isHidden = (boolean) args[0];
-            if (isHidden) {
-                MagicBuriedPoint.onPageClose(className, target);
-            } else {
-                MagicBuriedPoint.onPageOpen(className, target);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

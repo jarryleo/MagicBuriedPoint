@@ -1,8 +1,8 @@
 package cn.leo.magicburiedpoint;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
  * @author : Jarry Leo
@@ -15,7 +15,7 @@ public class VpAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new TestV4Fragment();
+        return new TestFragment();
     }
 
     @Override

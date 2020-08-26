@@ -1,6 +1,6 @@
 package cn.leo.magicburiedpoint;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * @author : Jarry Leo

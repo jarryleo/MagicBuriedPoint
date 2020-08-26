@@ -1,9 +1,9 @@
 package cn.leo.magicburiedpoint;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,25 +27,19 @@ public class MainActivity extends BaseActivity {
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("Application", "onClick: 1111111111" );
                 Toast.makeText(MainActivity.this, "点击事件", Toast.LENGTH_SHORT).show();
             }
         });
-//        testFragment();
-//        testFragment1();
+        testFragment();
     }
 
     private void testFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, new TestV4Fragment());
+        fragmentTransaction.replace(R.id.frameLayout, new TestFragment());
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    private void testFragment1() {
-        android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, new TestFragment1());
-        fragmentTransaction.commitAllowingStateLoss();
-    }
+
 
 
 }
